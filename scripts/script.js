@@ -16,9 +16,9 @@ const validateLinkedIn = (url) => {
     return /^https:\/\/www\.linkedin\.com\//.test(url); //must start with https://www.linkedin.com/
 };
 
-//real time listeners
-function validateInput(input) {
-    const errorSpan = input.nextElementSibling;
+//function for validating inputted fields
+const validateInput = (input) => {
+    const errorSpan = input.nextElementSibling; //target the error element
 
     if (input.id === "phoneNumber") { //if the user is inputting their phone number, use validatePhone function
         if (validatePhone(input.value)) {
@@ -32,16 +32,17 @@ function validateInput(input) {
         } else {
             errorSpan.textContent = "LinkedIn URL must start with https://www.linkedin.com/"; //invalid input, alert the user of the error
         }
-    } else if (input.checkValidity()) {
-        errorSpan.textContent = "";
+    } else if (input.checkValidity()) { //if not a phone number or LinkedIn, use checkValidity()
+        errorSpan.textContent = ""; //valid input, clear the error
     } else {
-        errorSpan.textContent = input.validationMessage || "Invalid Input";
+        errorSpan.textContent = input.validationMessage || "Invalid Input"; //invalid input, alert the user of the error
     }
 }
 
+//event listner for displaying real time feedback to the user
 document.querySelectorAll('input').forEach(function(input) {
-    input.addEventListener('input', function() {
-        validateInput(input)
+    input.addEventListener('input', function() { //loop through each input element
+        validateInput(input); //call validateInput, feedback provided for each field
     })
 })
 
@@ -52,6 +53,18 @@ document.getElementById('job-application').addEventListener('submit', function(e
     try {
         document.querySelectorAll('input').forEach(function(input) { //loop through each input filed
             validateInput(input); //validate the input
+            //run specific checks on phone number and LinkedIn, call their respective functions
+            if (input.id === "phoneNumber") {
+                if (!validatePhone(input.value)) {
+                    valid = false;
+                }
+            }
+            if (input.id === "linkedin") {
+                if (!validateLinkedIn(input.value)) {
+                    valid = false
+                }
+            }
+            //if not phone number or LinkedIn, use checkValidity()
             if(!input.checkValidity()) {
                 valid = false; //set valid to false if not valide
             }
@@ -84,24 +97,6 @@ document.getElementById('job-application').addEventListener('reset', function(ev
     }
 })
 
-document.getElementById('phoneNumber').addEventListener('input', function () {
-    const phoneError = document.getElementById('phoneNumberError');
-    if (!validatePhone(this.value)) {
-        phoneError.textContent = "Phone number must be 10 digits";
-    } else {
-        phoneError.textContent = "";
-    }
-});
-
-document.getElementById('linkedin').addEventListener('input', function () {
-    const linkedInError = document.getElementById('linkedinError');
-    if (!validateLinkedIn(this.value)) {
-        linkedInError.textContent = "LinkedIn URL must start with https://www.linkedin.com/";
-    } else {
-        linkedInError.textContent = "";
-    }
-});
-
 if (!Element.prototype.closest) {
     Element.prototype.closest = function(selector) {
         let element = this;
@@ -114,34 +109,3 @@ if (!Element.prototype.closest) {
         return null;
     }
 }
-
-// //event listener for validatePhone and validateLinkedIn
-// document.getElementById('job-application').addEventListener('submit', function(event) {
-//     //access the phone and phoneError elements
-//     const phone = document.getElementById('phone').value;
-//     const phoneError = document.getElementById('phoneError');
-
-//     //access the linkedIn and linkedInError element
-//     const linkedIn = document.getElementById('linkedin').value;
-//     const linkedInError = document.getElementById('linkedinError');
-
-//     let valid = true;
-
-//     if (!validatePhone(phone)) {
-//         phoneError.textContent = "Phone number must be 10 digits";
-//         valid = false;
-//     } else {
-//         phoneError.textContent = "";
-//     }
-
-//     if (!validateLinkedIn(linkedIn)) {
-//         linkedInError.textContent = "LinkedIn URL must start with https://www.linkedin.com/";
-//         valid = false;
-//     } else {
-//         linkedInError.textContent = "";
-//     }
-
-//     if (!valid) {
-//         event.preventDefault();
-//     }
-// })
