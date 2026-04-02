@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif; 
-    background-color: #f4f4f4; 
+    background-color: #d3dee8; 
     margin: 0; 
     padding: 0; 
     display: flex;
@@ -9,8 +9,11 @@ body {
     height: 100vh;
 }
 .container {
-    background-color: white;
-    padding: 20px; border-radius: 5px; box-shadow: 0 0 10px
+    background-color: rgb(161, 195, 228);
+    padding: 30px; border-radius: 5px; box-shadow: 0 0 2px
+}
+.company-info {
+    text-wrap: 10;
 }
 .form-group {
     margin-bottom: 15px;
@@ -42,7 +45,6 @@ body {
 }
 .button-group {
     padding: 10px; 
-    /* margin: 10px; */
     gap: 10px;
     display: flex;
 }

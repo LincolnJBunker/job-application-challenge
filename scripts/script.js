@@ -20,7 +20,19 @@ const validateLinkedIn = (url) => {
 function validateInput(input) {
     const errorSpan = input.nextElementSibling;
 
-    if (input.checkValidity()) {
+    if (input.id === "phoneNumber") { //if the user is inputting their phone number, use validatePhone function
+        if (validatePhone(input.value)) {
+            errorSpan.textContent = ""; //valid input, clear the error
+        } else {
+            errorSpan.textContent = "Phone number must be 10 digits"; //invalid input, alert the user of the error
+        }
+    } else if (input.id === "linkedin") { //if the user is inputting their LinkedIn, use validateLinkedIn function
+        if (validateLinkedIn(input.value)) {
+            errorSpan.textContent = ""; //valid input, clear the error
+        } else {
+            errorSpan.textContent = "LinkedIn URL must start with https://www.linkedin.com/"; //invalid input, alert the user of the error
+        }
+    } else if (input.checkValidity()) {
         errorSpan.textContent = "";
     } else {
         errorSpan.textContent = input.validationMessage || "Invalid Input";
@@ -33,20 +45,42 @@ document.querySelectorAll('input').forEach(function(input) {
     })
 })
 
+//event listener for when submit is clicked
 document.getElementById('job-application').addEventListener('submit', function(event) {
-    let valid = true;
+    let valid = true; //variable for valid input
 
-    document.querySelectorAll('input').forEach(function(input) {
-        validateInput(input);
+    try {
+        document.querySelectorAll('input').forEach(function(input) { //loop through each input filed
+            validateInput(input); //validate the input
+            if(!input.checkValidity()) {
+                valid = false; //set valid to false if not valide
+            }
+        })
 
-        if(!input.checkValidity()) {
-            valid = false;
+        if (!valid) {
+            event.preventDefault();
+            alert('Please fix errors or fill in the missing fields before submitting');
         }
-    })
+        
+    } catch (error) {
+        event.preventDefault();
+        alert('An error occured: ', error.message); //alert the user of the error
+    }
+})
 
-    if (!valid) {
-        event.preventDefault('');
-        alert('Form is not valid');
+//event listener for when reset is clicked
+document.getElementById('job-application').addEventListener('reset', function(event) {
+
+    try {
+        document.querySelectorAll('input').forEach(function(input) { //loop through each input filed
+            input.value = ""; //reset all fields
+        })
+        document.querySelectorAll('.error').forEach(function(span) {
+            span.textContent = ''; //reset all error messages, if any
+        });
+    } catch (error) {
+        event.preventDefault();
+        alert('An error occured while trying to reset fields: ', error.message); //alert the user of the error
     }
 })
 
