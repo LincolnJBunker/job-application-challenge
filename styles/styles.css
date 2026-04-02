@@ -28,9 +28,36 @@ body {
     color: red; 
     font-size: 0.875em;
 }
+.contact-info {
+    display: flex;
+    gap: 20px; 
+}
+.contact-info .form-group {
+    flex: 1; 
+}
+#address {
+    height: 80px;
+    padding-top: 8px;
+    vertical-align: top;
+}
+.button-group {
+    padding: 10px; 
+    /* margin: 10px; */
+    gap: 10px;
+    display: flex;
+}
 .submit-btn {
     background-color: #007bff; 
     color: white;
+    padding: 10px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+.reset-btn {
+    background-color: #b5babe; 
+    color: black;
     padding: 10px; 
     border: none; 
     border-radius: 5px;
