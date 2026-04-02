@@ -97,8 +97,11 @@ document.getElementById('job-application').addEventListener('reset', function(ev
     }
 })
 
+//Polyfills
+
+//feature dection
 if (!Element.prototype.closest) {
-    Element.prototype.closest = function(selector) {
+    Element.prototype.closest = function(selector) { //if the users browser doesn't already have closest built in, apply it here
         let element = this;
 
         while (element && element.nodeType === 1) {
@@ -108,4 +111,14 @@ if (!Element.prototype.closest) {
 
         return null;
     }
+}
+
+//detect support for querySelector
+if (!document.querySelector) {
+    alert('Your browser is not supported');
+}
+
+//detect support for addEventListener
+if (!window.addEventListener) {
+    alert('Your browser does not support event listeners');
 }
